@@ -29,6 +29,7 @@ server.on('request', (req, res) => {
 			console.log('Request:', newFriend);
 			friends.push(JSON.parse(newFriend));
 		});
+    req.pipe(res);
 	} else if (req.method === 'GET' && items[1] === 'friends') {
 		// res.writeHead(200, {
 		// 	'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ server.on('request', (req, res) => {
 		res.write('</body>');
 		res.write('</html>');
 		res.end();
-    
+
 	} else {
 		res.statusCode = 404;
 		res.end();
