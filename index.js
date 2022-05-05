@@ -23,7 +23,13 @@ server.on('request', (req, res) => {
 	const items = req.url.split('/');
 	// /friends/2 => ['', 'friends', '2']
 
-	if (items[1] === 'friends') {
+	if (req.method === 'POST' && items[1] === 'friends') {
+		req.on('data', (data) => {
+			const newFriend = data.toString();
+			console.log('Request:', newFriend);
+			friends.push(JSON.parse(newFriend));
+		});
+	} else if (req.method === 'GET' && items[1] === 'friends') {
 		// res.writeHead(200, {
 		// 	'Content-Type': 'application/json',
 		// });
@@ -48,7 +54,7 @@ server.on('request', (req, res) => {
 		res.write('</body>');
 		res.write('</html>');
 		res.end();
-
+    
 	} else {
 		res.statusCode = 404;
 		res.end();
